@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+  /* Multicolor
+    printf("\033[1;31msSSSSS\033[0m  \033[1;32mH   H\033[0m  \033[1;33mEEEEE\033[0m  \033[1;34mL\033[0m      \033[1;35mL\033[0m       \n");
+    printf("\033[1;31mS\033[0m       \033[1;32mH   H\033[0m  \033[1;33mE\033[0m      \033[1;34mL\033[0m      \033[1;35mL\033[0m       \n");
+    printf("\033[1;31msSSSSs\033[0m  \033[1;32mHHHHH\033[0m  \033[1;33mEEEE\033[0m   \033[1;34mL\033[0m      \033[1;35mL\033[0m       \n");
+    printf("\033[1;31m     S\033[0m  \033[1;32mH   H\033[0m  \033[1;33mE\033[0m      \033[1;34mL\033[0m      \033[1;35mL\033[0m       \n");
+    printf("\033[1;31mSSSSSs\033[0m  \033[1;32mH   H\033[0m  \033[1;33mEEEEE\033[0m  \033[1;34mLLLL\033[0m  \033[1;35mLLLLL\033[0m   \n");
+  */
+
+    printf("sSSSSS  H   H  EEEEE  L      L       \n");
+    printf("S       H   H  E      L      L       \n");
+    printf("sSSSSs  HHHHH  EEEE   L      L       \n");
+    printf("     S  H   H  E      L      L       \n");
+    printf("SSSSSs  H   H  EEEEE  LLLLL  LLLLL   \n");
+    printf("Hi there, welcome to the Shell\nTo exit type 'ext' and enter\n");
+
+    // Variables to store x and y values
+    int x = 0, y = 0;
+
+    // Statically allocate memory for inputx
+    char inputx[100];  // Allocating memory for input as a fixed-size array
+
+    while (1) {
+        printf("\n>> ");
+
+        // Use fgets to read a line of input
+        if (fgets(inputx, sizeof(inputx), stdin) == NULL) {
+            break;  // Handle EOF or error
+        }
+
+        // Remove newline character if present
+        inputx[strcspn(inputx, "\n")] = '\0';
+
+        if (strcmp(inputx, "ext") == 0) {
+            printf("\033[1;31mExiting\n");
+            break;  // Exit condition
+        }
+
+        int get1, get2;
+
+        // Check if the input matches variable assignment for x (e.g., x=5)
+        if (inputx[0] == 'x' && inputx[1] == '=' && inputx[2] != '\0') {
+            x = atoi(&inputx[2]);
+            printf("x = %d\n", x);
+        }
+        // Check if the input matches variable assignment for y (e.g., y=5)
+        else if (inputx[0] == 'y' && inputx[1] == '=' && inputx[2] != '\0') {
+            y = atoi(&inputx[2]);
+            printf("y = %d\n", y);
+        }
+        // Check for arithmetic operations involving x and y (e.g., x+y)
+        else if (inputx[0] == 'x' && (inputx[1] == '+' || inputx[1] == '-' || inputx[1] == '*' || inputx[1] == '/') && inputx[2] == 'y') {
+            switch (inputx[1]) {
+                case '+':
+                    printf("%d\n", x + y);
+                    break;
+                case '-':
+                    printf("%d\n", x - y);
+                    break;
+                case '*':
+                    printf("%d\n", x * y);
+                    break;
+                case '/':
+                    if (y != 0) {
+                        printf("%d\n", x / y);
+                    } else {
+                        printf("Cannot divide by zero\n");
+                    }
+                    break;
+                default:
+                    printf("Command didn't understand\n");
+            }
+        }
+        // Check for arithmetic operations involving numbers and x or y (e.g., x+2)
+        else if ((inputx[0] == 'x' || inputx[0] == 'y') && (inputx[1] == '+' || inputx[1] == '-' || inputx[1] == '*' || inputx[1] == '/') && (inputx[2] >= '0' && inputx[2] <= '9')) {
+            // Use simple if-else instead of the ternary operator
+            if (inputx[0] == 'x') {
+                get1 = x;  // Use the value of x
+            } else if (inputx[0] == 'y') {
+                get1 = y;  // Use the value of y
+            }
+            get2 = inputx[2] - '0';  // Convert second operand to integer
+
+            switch (inputx[1]) {
+                case '+':
+                    printf("%d\n", get1 + get2);
+                    break;
+                case '-':
+                    printf("%d\n", get1 - get2);
+                    break;
+                case '*':
+                    printf("%d\n", get1 * get2);
+                    break;
+                case '/':
+                    if (get2 != 0) {
+                        printf("%d\n", get1 / get2);
+                    } else {
+                        printf("Cannot divide by zero\n");
+                    }
+                    break;
+                default:
+                    printf("Command didn't understand\n");
+            }
+        }
+        // Check for general arithmetic operations (e.g., 2+3)
+        else if ((inputx[0] >= '0' && inputx[0] <= '9') && (inputx[1] == '+' || inputx[1] == '-' || inputx[1] == '*' || inputx[1] == '/') && (inputx[2] >= '0' && inputx[2] <= '9')) {
+            get1 = inputx[0] - '0';  // Convert char to integer
+            get2 = inputx[2] - '0';  // Convert second char to integer
+
+            switch (inputx[1]) {
+                case '+':
+                    printf("%d\n", get1 + get2);
+                    break;
+                case '-':
+                    printf("%d\n", get1 - get2);
+                    break;
+                case '*':
+                    printf("%d\n", get1 * get2);
+                    break;
+                case '/':
+                    if (get2 != 0) {
+                        printf("%d\n", get1 / get2);
+                    } else {
+                        printf("Cannot divide by zero\n");
+                    }
+                    break;
+                default:
+                    printf("Command didn't understand\n");
+            }
+        }
+        else {
+            printf("Command didn't understand\n");
+        }
+    }
+
+    return 0;
+}
